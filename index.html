@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- reset CSS -->
+    <link rel="stylesheet" href="assets/css/reset.css">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+
+    <!-- local CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <title>Street Fighter</title>
+</head>
+
+<body>
+    <!-- Screen 1: "Start Screen" -->
+    <div class="container-fluid start-screen"></div>
+    <div class="container-fluid main-title">
+        <div class="row">
+            <div class="col-12">
+                <img class="title-img" src="assets/images/street-fighter-title.png" alt="street fighter logo">
+                <br>
+                <button class="btn btn-danger start-screen-btn">Click or Press Enter</button>
+            </div>
+        </div>
+    </div>
+    <!-- Screen 2 :"Character Screen" -->
+    <div class="container-fluid character-screen">
+        <div class="row character-title character-show">
+            <div class="col-12">
+                <div class="player-select">Player Select</div>
+                <img src="assets/images/map.png" alt="map">
+            </div>
+        </div>
+        <div class="row character-wrapper character-show">
+            <div class="col-3 character-player">
+                <div class="char-box selected-character"></div>
+                <div class="selected-name"></div>
+            </div>
+            <div class="col-6 character-grid">
+                <!-- grid -->
+                <div class="row char-1">
+                    <div class="col-4 character-player">
+                        <div class="char-box ken" data-name="ken">
+                            <img src="assets/images/ken.png" alt="ken">
+                        </div>
+                    </div>
+                    <div class="col-4 character-player">
+                        <div class="char-box ehonda" data-name="ehonda">
+                            <img src="assets/images/ehonda.png" alt="ehonda">
+                        </div>
+                    </div>
+                    <div class="col-4 character-player">
+                        <div class="char-box ryu" data-name="ryu">
+                            <img src="assets/images/ryu.png" alt="ryu">
+                        </div>
+                    </div>
+                </div>
+                <div class="row char-2">
+                    <div class="col-4 character-player">
+                        <div class="char-box dhalsim" data-name="dhalsim">
+                            <img src="assets/images/dhalsim.png" alt="dhalsim">
+                        </div>
+                    </div>
+                    <div class="col-4 character-player">
+                        <div class="char-box zangief" data-name="zangief">
+                            <img src="assets/images/zangief.png" alt="zangief">
+                        </div>
+                    </div>
+                    <div class="col-4 character-player">
+                        <div class="char-box vega" data-name="vega">
+                            <img src="assets/images/vega.png" alt="vega">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3 character-player">
+                <div class="char-box vs-character"></div>
+                <div class="vs-name"></div>
+            </div>
+        </div>
+
+        <div class="row fight-btn-wrapper">
+            <div class="col-12">
+                <button class="btn btn-danger fight-btn">FIGHT</button>
+                <div class="instructions">You selected <span class="selected-name"></span>! Now defeat all remaining players!</div>
+            </div>
+        </div>
+
+    </div>
+    <!-- Screen 3: "Fight Screen" -->
+    <div class="container-fluid fight-screen">
+        <div class="row fight-title fight-show">
+            <div class="col-12">
+                <div class="row hp-bar">
+                    <div class="col-5 hp-selected-bar">
+                        <div class="hp-selected" data-value="100"></div>
+                    </div>
+                    <div class="col-2 ko">KO</div>
+                    <div class="col-5 hp-vs-bar">
+                        <div class="hp-vs" data-value="100"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row fight-names fight-show">
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-5 fight-name hp-selected-name"></div>
+                    <div class="col-2"></div>
+                    <div class="col-5 fight-name hp-vs-name"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row attack-space">
+            <div class="col-12 attack-btn-wrapper">
+                <button class="btn btn-danger attack-btn">ATTACK</button>
+                <button class="btn btn-danger reset-btn">FIGHT AGAIN</button>
+            </div>
+        </div>
+        <div class="row fight-space fight-show">
+            <div class="col-6 fighter-char selected-char"></div>
+            <div class="col-6 fighter-char vs-char"></div>
+        </div>
+    </div>
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="http://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+    <!-- local JavaScript -->
+    <script src="assets/javascript/game.js"></script>
+</body>
+
+</html>
