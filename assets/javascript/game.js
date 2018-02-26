@@ -3,15 +3,24 @@
     // Variables:
 
     var charArr = ["ken", "ehonda", "ryu", "dhalsim", "zangief", "vega"];
+    var charObjArr = [];
     var selected = false;
     var selectedChar;
     var vsChar;
+    var selectedObject = {};
+    var vsObject = {};
     var battleOn = false;
     var hpVs = $('.hp-vs').data('value');
     var hpSelected = $('.hp-selected').data('value');
     var hp;
+    var lastAttack;
+    var selectedHpTotal;
+    var vsHpTotal;
+    var hpTotal;
     var winner;
     var loser;
+    var maxHit;
+    var firstAttack = true;
 
     // Characters:
 
@@ -19,14 +28,15 @@
         this.name = name;
         this.hitPoints = hitPoints;
         this.attackMax = attackMax;
-      }
+        charObjArr.push(this);
+    }
 
-      var playerKen = new Player("Ken", 90, 65);
-      var playerEhonda = new Player("Ehonda", 150, 85);
-      var playerRyu = new Player("Ryu", 90, 55);
-      var playerDhalsim = new Player("Dhalsim", 60, 45);
-      var playerZangief = new Player("Zangief", 200, 75);
-      var playerVega = new Player("Vega", 80, 95);
+    var playerKen = new Player("Ken", 120, 65);
+    var playerEhonda = new Player("Ehonda", 150, 85);
+    var playerRyu = new Player("Ryu", 110, 75);
+    var playerDhalsim = new Player("Dhalsim", 60, 45);
+    var playerZangief = new Player("Zangief", 200, 55);
+    var playerVega = new Player("Vega", 70, 155);
 
     // Functions:
 
@@ -78,7 +88,18 @@
             }, 500, function () {
                 $(this).show();
             });
+        $('body')
+            .css({
+                "background": "#000177"
+            })
     } // /loadCharacterScreen
+
+    function capFirst(string) {
+        var letters = string.split('');
+        letters[0] = letters[0].toUpperCase();
+        var joined = letters.join('');
+        return joined;
+    } // /capFirst
 
     function pickChar(el) {
         if (selected === true) {
@@ -93,8 +114,7 @@
 
         $('.fight-btn-wrapper')
             .css({
-                "visibility": "visible",
-                "display": "flex"
+                "visibility": "visible"
             })
 
         var theClass = el.attr('class');
@@ -111,11 +131,40 @@
 
                 vsChar = charArr[Math.floor(Math.random() * charArr.length)];
 
-                $('.vs-character').html($("." + vsChar + "").html())
+                $('.vs-character').html($("." + vsChar).html())
 
-                $('.selected-name').text(selectedChar);
+                for (var j = 0; j < charObjArr.length; j++) {
+                    if (charObjArr[j].name === capFirst(selectedChar)) {
+                        selectedObject = Object.assign({}, charObjArr[j]);
+                    }
+                    if (charObjArr[j].name === capFirst(vsChar)) {
+                        vsObject = Object.assign({}, charObjArr[j]);
+                    }
+                }
 
-                $('.vs-name').text(vsChar);
+                $('.selected-name').text(selectedChar.toUpperCase());
+
+                $('.selected-hp').text(selectedObject.hitPoints);
+
+                $('.selected-current-hp').text(selectedObject.hitPoints);
+
+                $('.selected-max').text(selectedObject.attackMax);
+
+                $('.selected-last').text(0);
+
+                $('.vs-name').text(vsChar.toUpperCase());
+
+                $('.vs-hp').text(vsObject.hitPoints);
+
+                $('.vs-current-hp').text(vsObject.hitPoints);
+
+                $('.vs-max').text(vsObject.attackMax);
+
+                $('.vs-last').text(0);
+
+                $('.stats').css({
+                    "visibility": "visible"
+                })
 
                 selected = true;
 
@@ -130,8 +179,8 @@
         $('.selected-char').html(selectedFighter);
         $('.vs-char').html(vsFighter);
 
-        $('.hp-selected-name').html(selectedChar);
-        $('.hp-vs-name').html(vsChar);
+        $('.hp-selected-name').html(selectedChar.toUpperCase());
+        $('.hp-vs-name').html(vsChar.toUpperCase());
     } // /loadFighters
 
     function fadeCharScreen() {
@@ -157,13 +206,12 @@
     } // /fadeCharScreen
 
     function loadFightScreen() {
-        /*
+
         var backgrounds = ["bg-1", "bg-2", "bg-3", "bg-4"];
         var bg = Math.floor(Math.random() * backgrounds.length)
-        console.log(backgrounds[bg])
-        var randBackground = '../images/' + backgrounds[bg] + '.gif';
-        $('.fight-screen').css( "background-image", 'url(' + randBackground + ')');
-        */
+        var randBackground = 'assets/images/' + backgrounds[bg] + '.gif';
+        $('.fight-screen').css("background-image", 'url(' + randBackground + ')');
+
         $('.fight-show')
             .css({
                 "visibility": "visible",
@@ -191,7 +239,7 @@
             }, 500, function () {
                 $(this)
                     .empty()
-                    .html('<div class="col-12 game-over">GAME OVER<span class="winner"> ' + winner + ' WINS!</span></div>')
+                    .html('<div class="col-12 game-over">GAME OVER<span class="winner"> ' + winner.toUpperCase() + ' WINS!</span></div>')
                     .animate({
                         opacity: 1
                     }, 500)
@@ -254,6 +302,14 @@
 
         selected = false;
 
+
+        playerKen.hitPoints = 120;
+        playerEhonda.hitPoints = 150;
+        playerRyu.hitPoints = 110;
+        playerDhalsim.hitPoints = 60;
+        playerZangief.hitPoints = 200;
+        playerVega.hitPoints = 70;
+
     } // /resetScreen
 
     function recordLoser() {
@@ -268,44 +324,68 @@
 
                 charArr.splice(i, 1);
                 selectedChar = "";
-                charArr.push(winner);                //here
+                charArr.push(winner); //here
             }
         }
     } // /recordLoser
 
-    function calcAttack() {
+    function calcAttack() { //here
 
-        battleOn = true;
         var attackedChar;
+        var attackedCharHp;
+        var attackerLast;
+
         var whoAttacked = Math.round(Math.random());
+        if (firstAttack) {
+            vsHpTotal = vsObject.hitPoints;
+            selectedHpTotal = selectedObject.hitPoints;
+            firstAttack = false;
+        }
         if (whoAttacked) {
             attackedChar = $('.hp-vs');
-            hp = hpVs;
+            attackedCharHp = $('.vs-current-hp');
+            attackedLast = $('.selected-last');
+            hp = vsObject.hitPoints;
+            maxHit = selectedObject.attackMax;
+            hpTotal = vsHpTotal;
         } else {
             attackedChar = $('.hp-selected');
-            hp = hpSelected;
+            attackedCharHp = $('.selected-current-hp');
+            attackedLast = $('.vs-last');
+            hp = selectedObject.hitPoints;
+            maxHit = vsObject.attackMax;
+            hpTotal = selectedHpTotal;
         };
 
         if (hp <= 0) {
             //GAME OVER
             battleOn = false;
+            firstAttack = true;
         }
 
-        var hit = Math.round(Math.random() * hp);
+        var hit = Math.round(Math.random() * maxHit);
 
         hp = hp - hit;
 
         if (hp <= 10) {
             hp = 0;
+            hit += 10;
         }
+
+        var endingHp = Math.floor((hp / hpTotal) * 100);
 
         attackedChar
             .css({
-                "width": hp + "%",
+                "width": endingHp + "%",
                 "visibility": "visible"
             })
             .data('value', hp);
 
+        attackedLast
+            .text(hit);
+
+        attackedCharHp
+            .text(hp);
         if (hp === 0) {
 
             battleOn = false;
@@ -313,19 +393,21 @@
             loadGameOver();
         }
 
+
         if (whoAttacked) {
-            hpVs = hp;
+            vsObject.hitPoints = hp;
             winner = selectedChar;
             loser = vsChar;
+
         } else {
-            hpSelected = hp;
+            selectedObject.hitPoints = hp;
             winner = vsChar;
         };
 
     }
 
     // Event Handlers:
-        
+
     $('.start-screen-btn').click(function () {
 
         fadeStartScreen();
@@ -335,7 +417,7 @@
     }); // /click start-screen-btn
 
     $('.char-box').click(function () {
-        if ($(this).hasClass('inactive')) {
+        if ($(this).hasClass('unclickable')) {
             return;
         } else {
             pickChar($(this));

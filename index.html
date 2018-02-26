@@ -36,64 +36,78 @@
         <div class="row character-title character-show">
             <div class="col-12">
                 <div class="player-select">Player Select</div>
-                <img src="assets/images/map.png" alt="map">
+                <div class="map-wrapper">
+                    <img src="assets/images/map.png" alt="map">
+                </div>
+            </div>
+        </div>
+        <div class="row fight-btn-wrapper">
+            <div class="col-12">
+                <button class="btn btn-danger fight-btn">FIGHT</button>
+                <div class="instructions">You selected
+                    <span class="selected-name"></span>! Now defeat all remaining players starting with
+                    <span class="vs-name"></span>!</div>
             </div>
         </div>
         <div class="row character-wrapper character-show">
-            <div class="col-3 character-player">
-                <div class="char-box selected-character"></div>
+            <div class="col-3 character-player fighters">
+                <div class="char-box unclickable selected-character"></div>
                 <div class="selected-name"></div>
+                <div class="stats">Hit Points:
+                    <span class="selected-hp stat-result"></span>
+                </div>
+                <div class="stats">Max Attack:
+                    <span class="selected-max stat-result"></span>
+                </div>
             </div>
             <div class="col-6 character-grid">
-                <!-- grid -->
                 <div class="row char-1">
-                    <div class="col-4 character-player">
+                    <div class="col-12 col-sm-4 character-player">
                         <div class="char-box ken" data-name="ken">
                             <img src="assets/images/ken.png" alt="ken">
                         </div>
                     </div>
-                    <div class="col-4 character-player">
+                    <div class="col-12 col-sm-4  character-player">
                         <div class="char-box ehonda" data-name="ehonda">
                             <img src="assets/images/ehonda.png" alt="ehonda">
                         </div>
                     </div>
-                    <div class="col-4 character-player">
+                    <div class="col-12 col-sm-4  character-player">
                         <div class="char-box ryu" data-name="ryu">
                             <img src="assets/images/ryu.png" alt="ryu">
                         </div>
                     </div>
                 </div>
                 <div class="row char-2">
-                    <div class="col-4 character-player">
+                    <div class="col-12 col-sm-4  character-player">
                         <div class="char-box dhalsim" data-name="dhalsim">
                             <img src="assets/images/dhalsim.png" alt="dhalsim">
                         </div>
                     </div>
-                    <div class="col-4 character-player">
+                    <div class="col-12 col-sm-4 character-player">
                         <div class="char-box zangief" data-name="zangief">
                             <img src="assets/images/zangief.png" alt="zangief">
                         </div>
                     </div>
-                    <div class="col-4 character-player">
+                    <div class="col-12 col-sm-4 character-player">
                         <div class="char-box vega" data-name="vega">
                             <img src="assets/images/vega.png" alt="vega">
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-3 character-player">
-                <div class="char-box vs-character"></div>
+
+            <div class="col-3 character-player fighters">
+                <div class="char-box unclickable vs-character"></div>
                 <div class="vs-name"></div>
+                <div class="stats">Hit Points:
+                    <span class="vs-hp stat-result"></span>
+                </div>
+                <div class="stats">Max Attack:
+                    <span class="vs-max stat-result"></span>
+                </div>
             </div>
         </div>
-
-        <div class="row fight-btn-wrapper">
-            <div class="col-12">
-                <button class="btn btn-danger fight-btn">FIGHT</button>
-                <div class="instructions">You selected <span class="selected-name"></span>! Now defeat all remaining players!</div>
-            </div>
-        </div>
-
     </div>
     <!-- Screen 3: "Fight Screen" -->
     <div class="container-fluid fight-screen">
@@ -103,7 +117,7 @@
                     <div class="col-5 hp-selected-bar">
                         <div class="hp-selected" data-value="100"></div>
                     </div>
-                    <div class="col-2 ko">KO</div>
+                    <span class="col-2 ko">KO</span>
                     <div class="col-5 hp-vs-bar">
                         <div class="hp-vs" data-value="100"></div>
                     </div>
@@ -112,22 +126,44 @@
         </div>
         <div class="row fight-names fight-show">
             <div class="col-12">
-                <div class="row">
-                    <div class="col-5 fight-name hp-selected-name"></div>
-                    <div class="col-2"></div>
-                    <div class="col-5 fight-name hp-vs-name"></div>
+                <div class="row fighter-stats-wrapper">
+                    <div class="col-4 fighter-stats">
+                        <div class="fight-name hp-selected-name"></div>
+                        <div class="stats">Hit Points:<br/>
+                            <span class="selected-current-hp stat-result"></span> /
+                            <span class="selected-hp stat-result"></span>
+                        </div>
+                        <div class="stats">Last Attack:<br/>
+                            <span class="selected-last stat-result"></span> /
+                            <span class="selected-max stat-result"></span>
+                        </div>
+                    </div>
+                    <div class="col-4"></div>
+                    <div class="col-4 fighter-stats">
+                        <div class="fight-name hp-vs-name"></div>
+                        <div class="stats">Hit Points:<br/>
+                            <span class="vs-current-hp stat-result"></span> /
+                            <span class="vs-hp stat-result"></span>
+                        </div>
+                        <div class="stats">Last Attack:<br/>
+                            <span class="vs-last stat-result"></span> /
+                            <span class="vs-max stat-result"></span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="row attack-space">
-            <div class="col-12 attack-btn-wrapper">
-                <button class="btn btn-danger attack-btn">ATTACK</button>
-                <button class="btn btn-danger reset-btn">FIGHT AGAIN</button>
+        <div class="row">
+                <div class="col-12 attack-btn-wrapper">
+                    <button class="btn btn-danger attack-btn">ATTACK</button>
+                    <button class="btn btn-danger reset-btn">FIGHT AGAIN</button>
+                </div>
             </div>
-        </div>
         <div class="row fight-space fight-show">
             <div class="col-6 fighter-char selected-char"></div>
             <div class="col-6 fighter-char vs-char"></div>
+            <div class="col-6 alt-fighter-char char-box unclickable selected-character"></div>
+            <div class="col-6 alt-fighter-char char-box unclickable vs-character"></div>
         </div>
     </div>
 
