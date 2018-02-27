@@ -112,6 +112,11 @@
 
         $('.selected-character').html(el.html());
 
+        $('.play-again')
+            .css({
+                "visibility": "hidden",
+            })
+
         $('.fight-btn-wrapper')
             .css({
                 "visibility": "visible"
@@ -290,6 +295,8 @@
                 opacity: 1
             }, 500);
 
+        $('.selected-name').empty();
+
         battleOn = true;
 
         hpVs = 100;
@@ -302,7 +309,6 @@
 
         selected = false;
 
-
         playerKen.hitPoints = 120;
         playerEhonda.hitPoints = 150;
         playerRyu.hitPoints = 110;
@@ -313,34 +319,63 @@
     } // /resetScreen
 
     function recordLoser() {
-        $("." + loser)
-            .empty()
-            .html('<img src="assets/images/' + loser + '-bw.png" alt="' + loser + '">')
-            .addClass('inactive')
 
-        for (var i = 0; i < charArr.length; i++) {
+        $('.selected-character').empty();
 
-            if (charArr[i] === loser) {
+        $('.fight-btn-wrapper')
+            .css({
+                "visibility": "hidden"
+            });
+        $('.play-again')
+            .css({
+                "visibility": "visible"
+            });
 
-                charArr.splice(i, 1);
-                selectedChar = "";
-                charArr.push(winner); //here
+        $('.stats')
+            .css({
+                "visibility": "hidden"
+            })
+
+        if (loser === selectedChar) {
+
+            charArr.push(loser);
+        } else if (loser === vsChar) {
+
+            charArr.push(winner);
+
+            $("." + loser)
+                .empty()
+                .html('<img src="assets/images/' + loser + '-bw.png" alt="' + loser + '">')
+                .addClass('inactive')
+            for (var i = 0; i < charArr.length; i++) {
+
+                if (charArr[i] === loser) {
+
+                    charArr.splice(i, 1);
+                }
             }
         }
+
     } // /recordLoser
 
-    function calcAttack() { //here
+    function grabTotals() {
+        vsHpTotal = vsObject.hitPoints;
+        selectedHpTotal = selectedObject.hitPoints;
+        firstAttack = false;
+    }
+
+    function calcAttack() {
 
         var attackedChar;
         var attackedCharHp;
         var attackerLast;
 
         var whoAttacked = Math.round(Math.random());
+
         if (firstAttack) {
-            vsHpTotal = vsObject.hitPoints;
-            selectedHpTotal = selectedObject.hitPoints;
-            firstAttack = false;
+            grabTotals();
         }
+
         if (whoAttacked) {
             attackedChar = $('.hp-vs');
             attackedCharHp = $('.vs-current-hp');
@@ -357,12 +392,6 @@
             hpTotal = selectedHpTotal;
         };
 
-        if (hp <= 0) {
-            //GAME OVER
-            battleOn = false;
-            firstAttack = true;
-        }
-
         var hit = Math.round(Math.random() * maxHit);
 
         hp = hp - hit;
@@ -370,6 +399,10 @@
         if (hp <= 10) {
             hp = 0;
             hit += 10;
+        }
+
+        if (hp > hpTotal) {
+            hp = hpTotal;
         }
 
         var endingHp = Math.floor((hp / hpTotal) * 100);
@@ -386,13 +419,6 @@
 
         attackedCharHp
             .text(hp);
-        if (hp === 0) {
-
-            battleOn = false;
-
-            loadGameOver();
-        }
-
 
         if (whoAttacked) {
             vsObject.hitPoints = hp;
@@ -402,7 +428,14 @@
         } else {
             selectedObject.hitPoints = hp;
             winner = vsChar;
+            loser = selectedChar;
         };
+
+        if (hp === 0) {
+            firstAttack = true;
+            battleOn = false;
+            loadGameOver();
+        }
 
     }
 
@@ -417,7 +450,7 @@
     }); // /click start-screen-btn
 
     $('.char-box').click(function () {
-        if ($(this).hasClass('unclickable')) {
+        if ($(this).hasClass('inactive')) {
             return;
         } else {
             pickChar($(this));
@@ -446,36 +479,12 @@
 
     $('.reset-btn').click(function () {
 
-        resetScreen();
-
         recordLoser();
 
         loadCharacterScreen();
 
-        console.log(charArr);
+        resetScreen();
+
     }) // /click reset-btn
-
-    //init values, global counters, values that need to be reset in a function that can be run to restart game, run the function onload
-
-    //run game
-
-    //inital screen = play game button
-
-    //onclick of play game button, curtain out from center show characters
-
-    //hover square over character sqaure w/ name at bottom
-
-    //onclick of character, show full character on left w/ YOU CHOOSE + charaName, and
-    //show fight button, onclick of fight button show CPU CHOOSES + charaName on right after, and
-    //curtain out from center to show fight screen, fade in characters
-
-    //show attack button, onclick one character shakes if hit and HP goes down
-
-    //if one character HP = 0, GAME OVER and display who won alert, add win count, play again button
-
-
-    //event listeners
-
-    //reset
 
 }()); // /function

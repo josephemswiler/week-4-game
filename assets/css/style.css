@@ -167,6 +167,13 @@ body {
     color: #fff;
 }
 
+.you-win, .play-again {
+    display: block;
+    visibility: hidden;
+    font-size: 20px;
+    margin-top: 20px;
+}
+
 /***************** Screen 3: "Fight Screen" *****************/
 
 .fight-screen {
