@@ -21,6 +21,7 @@
     var loser;
     var maxHit;
     var firstAttack = true;
+    var roundCounter = 1;
 
     // Characters:
 
@@ -114,11 +115,13 @@
 
         $('.play-again')
             .css({
-                "visibility": "hidden",
+                "display": "none",
+                "visibility": "hidden"
             })
 
         $('.fight-btn-wrapper')
             .css({
+                "display": "block",
                 "visibility": "visible"
             })
 
@@ -211,6 +214,8 @@
     } // /fadeCharScreen
 
     function loadFightScreen() {
+
+        $('.round-count').text(roundCounter);
 
         var backgrounds = ["bg-1", "bg-2", "bg-3", "bg-4"];
         var bg = Math.floor(Math.random() * backgrounds.length)
@@ -324,10 +329,12 @@
 
         $('.fight-btn-wrapper')
             .css({
+                "display": "none",
                 "visibility": "hidden"
             });
         $('.play-again')
             .css({
+                "display": "block",
                 "visibility": "visible"
             });
 
@@ -460,7 +467,7 @@
     $('.fight-btn').click(function () {
 
         if (!selected) {
-            return; //here
+            return; 
         }
 
         fadeCharScreen();
@@ -479,12 +486,34 @@
 
     $('.reset-btn').click(function () {
 
+        roundCounter++;
+
         recordLoser();
 
         loadCharacterScreen();
 
         resetScreen();
 
+        if (charArr.length === 1) {
+            $('.' + winner).addClass('inactive');
+            $('.refresh-game')
+                .css({
+                    "display": "block",
+                    "visibility": "visible"
+                });
+            $('.play-again')
+                .empty();
+
+            $('.fight-btn-wrapper')
+                .empty();
+        }
+        $('.the-winner').text(winner.toUpperCase());
+        $('.round-count-text').text(roundCounter);
+
     }) // /click reset-btn
+
+    $('.refresh-game-btn').click(function () {
+        location.reload();
+    });
 
 }()); // /function

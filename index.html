@@ -41,12 +41,26 @@
                 </div>
             </div>
         </div>
+        <div class="row play-again">
+            <div class="col-12">Select a player to play again!</div>
+        </div>
+        <div class="row refresh-game">
+            <div class="col-12">You Won in
+                <span class="round-count-text"></span> rounds!
+                <br>Congratulations
+                <span class="the-winner"></span>!
+                <br>
+                <button class="btn btn-danger refresh-game-btn">RESET GAME</button>
+            </div>
+        </div>
         <div class="row fight-btn-wrapper">
             <div class="col-12">
-                <button class="btn btn-danger fight-btn">FIGHT</button>
                 <div class="instructions">You selected
                     <span class="selected-name"></span>! Now defeat all remaining players starting with
-                    <span class="vs-name"></span>!</div>
+                    <span class="vs-name"></span>!
+                    <br>
+                    <button class="btn btn-danger fight-btn">FIGHT</button>
+                </div>
             </div>
         </div>
         <div class="row character-wrapper character-show">
@@ -128,23 +142,30 @@
                 <div class="row fighter-stats-wrapper">
                     <div class="col-4 fighter-stats">
                         <div class="fight-name hp-selected-name"></div>
-                        <div class="stats">Hit Points:<br/>
+                        <div class="stats">Hit Points:
+                            <br/>
                             <span class="selected-current-hp stat-result"></span> /
                             <span class="selected-hp stat-result"></span>
                         </div>
-                        <div class="stats">Last Attack:<br/>
+                        <div class="stats">Last Attack:
+                            <br/>
                             <span class="selected-last stat-result"></span> /
                             <span class="selected-max stat-result"></span>
                         </div>
                     </div>
-                    <div class="col-4"></div>
+                    <div class="col-4">Round
+                        <br>
+                        <span class="round-count"></span>
+                    </div>
                     <div class="col-4 fighter-stats">
                         <div class="fight-name hp-vs-name"></div>
-                        <div class="stats">Hit Points:<br/>
+                        <div class="stats">Hit Points:
+                            <br/>
                             <span class="vs-current-hp stat-result"></span> /
                             <span class="vs-hp stat-result"></span>
                         </div>
-                        <div class="stats">Last Attack:<br/>
+                        <div class="stats">Last Attack:
+                            <br/>
                             <span class="vs-last stat-result"></span> /
                             <span class="vs-max stat-result"></span>
                         </div>
@@ -153,11 +174,11 @@
             </div>
         </div>
         <div class="row">
-                <div class="col-12 attack-btn-wrapper">
-                    <button class="btn btn-danger attack-btn">ATTACK</button>
-                    <button class="btn btn-danger reset-btn">FIGHT AGAIN</button>
-                </div>
+            <div class="col-12 attack-btn-wrapper">
+                <button class="btn btn-danger attack-btn">ATTACK</button>
+                <button class="btn btn-danger reset-btn">FIGHT AGAIN</button>
             </div>
+        </div>
         <div class="row fight-space fight-show">
             <div class="col-6 fighter-char selected-char"></div>
             <div class="col-6 fighter-char vs-char"></div>
